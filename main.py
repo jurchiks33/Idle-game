@@ -16,13 +16,26 @@ class SimpleWindow:
         label_title = tk.Label(self.master, text="IDLE MASTER", font=("Arial", 24, "bold"), bg="grey", fg="black")
         label_title.pack(pady=20)
 
+        title_canvas = tk.Canvas(self.master, bg="grey", bd=0, highlightthickness=0, height=10)
+        title_canvas.pack(fill=tk.X, pady=(0, 20))
+        title_canvas.create_line(0, 5, width_in_pixel, 5, fill="brown", width=3)
+
         names = ["sword", "fists", "bow", "fireball", "frostbolt"]
 
         frame_width = int((5 / 2.54) * 96)
         frame_height = int((2 / 2.54) * 96)
 
+        outer_container = tk.Frame(self.master, bg="grey")
+        outer_container.pack(side=tk.LEFT, padx=5, pady= 5)
+
         left_container = tk.Frame(self.master, bg="grey")
         left_container.pack(side=tk.LEFT, padx=5, pady=5)
+
+        canvas = tk.Canvas(left_container, bg="grey", bd=0, highlightthickness=0, width=10, height=height_in_pixel)
+        canvas.pack(side=tk.RIGHT, fill=tk.BOTH)
+        canvas.create_line(5, 0, 5, height_in_pixel, fill="brown", width=3)
+
+        
 
         for name in names:
             value = tk.StringVar()
