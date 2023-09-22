@@ -31,16 +31,18 @@ class SimpleWindow:
         outer_container.pack(side=tk.RIGHT, padx=5, pady= 5)
         self.tree_image = ImageTk.PhotoImage(Image.open("tree.jpg"))
         tree_label = tk.Label(outer_container, image=self.tree_image, bg="grey")
-        tree_label.pack(side=tk.TOP, padx=10)  # pack tree_label at the top of outer_container
+        tree_label.pack(side=tk.TOP, padx=10)  
 
         self.health = 500
 
         self.health_label = tk.Label(outer_container, text=str(self.health) + "HP", bg="grey", font=("Arial", 12, "bold"))
-        self.health_label.pack(side=tk.TOP, pady=5)  # corrected typo here and pack health_label below the tree_label
+        self.health_label.pack(side=tk.TOP, pady=5) 
 
+        
+        image_width = self.tree_image.width()
         self.health_bar_canvas = tk.Canvas(outer_container, width=200, height=20, bg="grey")
-        self.health_bar_canvas.pack(side=tk.TOP, pady=5)  # pack health_bar_canvas below the health_label
-        self.health_bar = self.health_bar_canvas.create_rectangle(0, 0, 200, 20, fill="red", outline="black")
+        self.health_bar_canvas.pack(side=tk.TOP, pady=5)  
+        self.health_bar = self.health_bar_canvas.create_rectangle(0, 0, image_width, 20, fill="red", outline="black")
 
         
         tree_label.bind("<ButtonPress-1>", self.decrease_health)
@@ -48,9 +50,15 @@ class SimpleWindow:
         left_container = tk.Frame(self.master, bg="grey")
         left_container.pack(side=tk.LEFT, padx=5, pady=5)
 
-        canvas = tk.Canvas(left_container, bg="grey", bd=0, highlightthickness=0, width=10, height=height_in_pixel)
-        canvas.pack(side=tk.RIGHT, fill=tk.BOTH)
-        canvas.create_line(5, 0, 5, height_in_pixel, fill="brown", width=3)       
+        self.background_image = ImageTk.PhotoImage(Image.open("background.jpg"))
+        canvas_width = self.background_image.width()
+        canvas_height = self.background_image.height()
+
+        background_canvas = tk.Canvas(left_container, bd=0, highlightthickness=0, width=canvas_width, height=canvas_height)
+        background_canvas.pack(side=tk.RIGHT, fill=tk.BOTH)
+        background_canvas.create_image(0, 0, anchor=tk.NW, image=self.background_image)
+                
+         
 
         for name in names:
             value = tk.StringVar()
@@ -67,6 +75,10 @@ class SimpleWindow:
             frame.bind("<Leave>", lambda e, f=frame, l=label: (f.configure(bg="white"), l.configure(bg="white")), add='+')
             frame.bind("<ButtonPress-1>", lambda event, v=value, lbl=label, nm=name: self.increase_value(v, lbl, nm))
             label.bind("<ButtonPress-1>", lambda event, v=value, lbl=label, nm=name: self.increase_value(v, lbl, nm))
+
+        line_canvas = tk.Canvas(left_container, bg="grey", bd=0, highlightthickness=0, width=10, height=height_in_pixel)
+        line_canvas.pack(side=tk.RIGHT, fill=tk.BOTH)
+        line_canvas.create_line(5, 0, 5, height_in_pixel, fill="brown", width=3)
 
            
     def increase_value(self, value, label, name):
