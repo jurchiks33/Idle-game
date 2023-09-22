@@ -73,13 +73,18 @@ class SimpleWindow:
            
     def increase_value(self, value, label, name):
         current_value = int(value.get())
-        new_value = str(current_value + 1)
-        value.set(new_value)
-        label.config(text=name + ": " + new_value)
+        new_value = current_value + 1
+        value.set(str(new_value))
+        label.config(text=name + ": " + str(new_value))
+        self.decrease_health(new_value)  
 
-    def decrease_health(self, event):
+    def decrease_health(self, value=1):
+        if isinstance(value, tk.Event):  
+            value = 1  
         if self.health > 0:
-            self.health -=1
+            self.health -= value  
+            if self.health < 0:
+                self.health = 0  
             self.health_label.config(text=str(self.health) + "HP")
             self.health_bar_canvas.coords(self.health_bar, 0, 0, 200 * (self.health / 500), 20)
 
