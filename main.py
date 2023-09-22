@@ -50,16 +50,6 @@ class SimpleWindow:
         left_container = tk.Frame(self.master, bg="grey")
         left_container.pack(side=tk.LEFT, padx=5, pady=5)
 
-        self.background_image = ImageTk.PhotoImage(Image.open("background.jpg"))
-        canvas_width = self.background_image.width()
-        canvas_height = self.background_image.height()
-
-        background_canvas = tk.Canvas(left_container, bd=0, highlightthickness=0, width=canvas_width, height=canvas_height)
-        background_canvas.pack(side=tk.RIGHT, fill=tk.BOTH)
-        background_canvas.create_image(0, 0, anchor=tk.NW, image=self.background_image)
-                
-         
-
         for name in names:
             value = tk.StringVar()
             value.set("1")
