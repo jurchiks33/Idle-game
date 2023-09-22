@@ -42,7 +42,7 @@ class SimpleWindow:
         image_width = self.tree_image.width()
         self.health_bar_canvas = tk.Canvas(outer_container, width=200, height=20, bg="grey")
         self.health_bar_canvas.pack(side=tk.TOP, pady=5)  
-        self.health_bar = self.health_bar_canvas.create_rectangle(0, 0, image_width, 20, fill="red", outline="black")
+        self.health_bar = self.health_bar_canvas.create_rectangle(0, 0, 200, 20, fill="red", outline="black")
 
         
         tree_label.bind("<ButtonPress-1>", self.decrease_health)
