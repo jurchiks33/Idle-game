@@ -30,6 +30,7 @@ class SimpleWindow:
         outer_container = tk.Frame(self.master, bg="grey")
         outer_container.pack(side=tk.RIGHT, padx=5, pady= 5)
         self.tree_image = ImageTk.PhotoImage(Image.open("tree.jpg"))
+        image_width = self.tree_image.width()
         tree_label = tk.Label(outer_container, image=self.tree_image, bg="grey")
         tree_label.pack(side=tk.TOP, padx=10)  
 
@@ -39,7 +40,7 @@ class SimpleWindow:
         self.health_label.pack(side=tk.TOP, pady=5) 
 
         
-        image_width = self.tree_image.width()
+        
         self.health_bar_canvas = tk.Canvas(outer_container, width=200, height=20, bg="grey")
         self.health_bar_canvas.pack(side=tk.TOP, pady=5)  
         self.health_bar = self.health_bar_canvas.create_rectangle(0, 0, 200, 20, fill="red", outline="black")
