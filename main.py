@@ -11,21 +11,21 @@ class Enemy:
         self.tree_label = tk.Label(container, image=self.tree_image, bg="grey")
         self.tree_label.pack(side=tk.TOP, padx=10)
 
-        self.health_label = tk.Label(container, text=str(self.health) + "HP", bg="grey", font=("Arial", 12, "Bold"))
+        self.health_label = tk.Label(container, text=str(self.health) + "HP", bg="grey", font=("Arial", 12, "bold"))
         self.health_label.pack(side=tk.TOP, pady=5)
 
         self.health_bar_canvas = tk.Canvas(container, width=200, height=20, bg="grey")
         self.health_bar_canvas.pack(side=tk.TOP, pady=5)
         self.health_bar = self.health_bar_canvas.create_rectangle(0, 0, 200, 20, fill="red", outline="black")
 
-        self.tree_label.bind("<ButtonPress-1>")
+        self.tree_label.bind("<ButtonPress-1>", self.decrease_health)
 
-    def decrease_health(self, event=None, value=1)
+    def decrease_health(self, event=None, value=1):
         if self.health > 0:
             self.health -= value
             if self.health < 0:
                 self.health = 0
-            self.health_label.config(text=str(self.healt) + "HP")
+            self.health_label.config(text=str(self.health) + "HP")
             self.health_bar_canvas.coords(self.health_bar, 0, 0, 200 * (self.health / self.max_health), 20)
 
 class SimpleWindow:
@@ -80,8 +80,8 @@ class SimpleWindow:
         enemy_container.pack(side=tk.RIGHT, padx=5, pady=5)
 
         self.add_enemy(enemy_container, "tree.jpg", 500)
-        self.add_enemy(enemy_container, "enemy2", 7000)
-        self.add_enemy(enemy_container, "enemy3", 25000)
+        self.add_enemy(enemy_container, "enemy2.jpg", 7000)
+        self.add_enemy(enemy_container, "enemy3.jpg", 25000)
 
     def add_enemy(self, container, img_path, health):
         enemy = Enemy(container, img_path, health)
@@ -92,17 +92,8 @@ class SimpleWindow:
         new_value = current_value + 1
         value.set(str(new_value))
         label.config(text=name + ": " + str(new_value))
-        self.decrease_health(new_value)  
-
-    def decrease_health(self, value=1):
-        if isinstance(value, tk.Event):  
-            value = 1  
-        if self.health > 0:
-            self.health -= value  
-            if self.health < 0:
-                self.health = 0  
-            self.health_label.config(text=str(self.health) + "HP")
-            self.health_bar_canvas.coords(self.health_bar, 0, 0, 200 * (self.health / 500), 20)
+        for enemy in self.enemies:
+            enemy.decrease_health(value=new_value)  
 
 if __name__ == "__main__":
     root = tk.Tk()
