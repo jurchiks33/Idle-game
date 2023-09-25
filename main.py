@@ -76,8 +76,17 @@ class SimpleWindow:
         line_canvas.create_line(5, 0, 5, height_in_pixel, fill="brown", width=3)
 
         self.enemies = []
+        enemy_container = tk.Frame(self.master, bg="grey")
+        enemy_container.pack(side=tk.RIGHT, padx=5, pady=5)
 
-           
+        self.add_enemy(enemy_container, "tree.jpg", 500)
+        self.add_enemy(enemy_container, "enemy2", 7000)
+        self.add_enemy(enemy_container, "enemy3", 25000)
+
+    def add_enemy(self, container, img_path, health):
+        enemy = Enemy(container, img_path, health)
+        self.enemies. append(enemy)
+          
     def increase_value(self, value, label, name):
         current_value = int(value.get())
         new_value = current_value + 1
