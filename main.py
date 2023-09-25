@@ -7,18 +7,19 @@ class Enemy:
         self.health = health
         self.max_health = health
     
-    self.tree_image = ImageTk.PhotoImage(Image.open(img_path))
-    self.tree_label = tk.Label(container, image=self.tree_image, bg="grey")
-    self.tree_label.pack(side=tk.TOP, padx=10)
+        self.tree_image = ImageTk.PhotoImage(Image.open(img_path))
+        self.tree_label = tk.Label(container, image=self.tree_image, bg="grey")
+        self.tree_label.pack(side=tk.TOP, padx=10)
 
-    self.health_label = tk.Label(container, text=str(self.health) + "HP", bg="grey", font=("Arial", 12, "Bold"))
-    self.health_label.pack(side=tk.TOP, pady=5)
+        self.health_label = tk.Label(container, text=str(self.health) + "HP", bg="grey", font=("Arial", 12, "Bold"))
+        self.health_label.pack(side=tk.TOP, pady=5)
 
-    self.health_bar_canvas = tk.Canvas(container, width=200, height=20, bg="grey")
-    self.health_bar_canvas.pack(side=tk.TOP, pady=5)
-    self.health_bar = self.health_bar_canvas.create_rectangle(0, 0, 200, 20, fill="red", outline="black")
+        self.health_bar_canvas = tk.Canvas(container, width=200, height=20, bg="grey")
+        self.health_bar_canvas.pack(side=tk.TOP, pady=5)
+        self.health_bar = self.health_bar_canvas.create_rectangle(0, 0, 200, 20, fill="red", outline="black")
 
-    self.tree_label.bind("<ButtonPress-1>")
+        self.tree_label.bind("<ButtonPress-1>")
+
 
 class SimpleWindow:
     def __init__(self, master):
