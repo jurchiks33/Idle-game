@@ -9,8 +9,8 @@ class Enemy:
         self.max_health = health
         self.window_instance = window_instance
 
-        width_in_pixel = int((2 / 2.54) * 96)
-        height_in_pixel = int((2 / 2.54) * 96)
+        width_in_pixel = int((2.5 / 2.54) * 96)
+        height_in_pixel = int((2.5 / 2.54) * 96)
 
         img = Image.open(img_path)
         img = img.resize((width_in_pixel, height_in_pixel))
@@ -18,31 +18,61 @@ class Enemy:
     
         self.tree_label = tk.Label(container, image=self.tree_image, bg="grey")
         self.tree_label.pack(side=tk.TOP, padx=10)
-
+        
         self.health_label = tk.Label(container, text=str(self.health) + "HP", bg="grey", font=("Arial", 12, "bold"))
         self.health_label.pack(side=tk.TOP, pady=5)
-
+        
         self.health_bar_canvas = tk.Canvas(container, width=width_in_pixel, height=20, bg="grey")
         self.health_bar_canvas.pack(side=tk.TOP, pady=5)
         self.health_bar = self.health_bar_canvas.create_rectangle(0, 0, 200, 20, fill="red", outline="black")
+        
+        self.tree_label.bind("<ButtonPress-1>", self.select_enemy)
+        self.health_label.bind("<ButtonPress-1>", self.select_enemy)
+        self.health_bar_canvas.bind("<ButtonPress-1>"), self.select_enemy
 
+        self.isSelected = False
+        self.container.bind("<ButtonPress-1>", self.select_enemy)
 
+        self.container.bind("<Enter>", lambda e: self.container.config(cursor='hand2'))
+        self.container.bind("<Leave>", lambda e: self.container.config(cursor=''))
 
-        self.tree_label.bind("<ButtonPress-1>", self.decrease_health)
+    
+    def select_enemy(self, event=None):
+        self.tree_label.configure(bg="green")
+        self.health_label.configure(bg="green")
+        self.health_bar_canvas.configure(bg="green")
+        
+        for enemy in self.window_instance.enemies:
+            enemy.unselect_enemy()
+        self.isSelected = True
+        self.container.configure(bg="green")
+    
+    def unselect_enemy(self):
+        self.tree_label.configure(bg="grey")
+        self.health_label.configure(bg="grey")
+        self.health_bar_canvas.configure(bg="grey")
+        
+        self.isSelected = False
+        self.container.configure(bg="grey")
 
     def decrease_health(self, event=None, value=1):
+        self.select_enemy() 
         if self.health > 0:
             self.health -= value
             if self.health <= 0:
                 self.defeat_enemy(value)
                 self.health = 0
             self.health_label.config(text=str(self.health) + "HP")
-            self.health_bar_canvas.coords(self.health_bar, 0, 0, 200 * (self.health / self.max_health), 20)
+            
+            canvas_width = self.health_bar_canvas.winfo_width()
+            new_width = canvas_width * (self.health / self.max_health)
+
+            self.health_bar_canvas.coords(self.health_bar, 0, 0, new_width, 20)
 
             damage_label = tk.Label(self.container, text="-"+str(value), fg="red", bg="grey", font=("Arial", 12, "bold"))
 
             x = self.container.winfo_width() // 2
-            y = self.container.winfo_height() // 2 - 110
+            y = self.container.winfo_height() // 2 - 10
 
             damage_label.place(x=x, y=y, anchor=tk.CENTER)
             self.container.after(1000, damage_label.destroy)
@@ -143,7 +173,9 @@ class SimpleWindow:
         value.set(str(new_value))
         label.config(text=name + ": " + str(new_value))
         for enemy in self.enemies:
-            enemy.decrease_health(value=new_value)
+            if enemy.isSelected:  # Only affect the selected enemy
+                enemy.decrease_health(value=new_value)
+                break
 
     def increase_skill(self, name, max_health):
         increase_by = round(0.005 * max_health)
