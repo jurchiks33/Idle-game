@@ -42,11 +42,18 @@ class Enemy:
     def defeat_enemy(self, value):
         self.window_instance.increase_skill("sword", self.max_health)
 
+    def reset_health(self):
+        self.health = self.max_health
+        self.health_label.config(text=str(self.health) + "HP")
+        self.health_bar_canvas.coords(self.health_bar, 0, 0, 200, 20)
+
 class SimpleWindow:
     def __init__(self, master):
         self.master = master
         self.master.title("Simple Game Window")
         self.master.configure(bg="grey")
+        self.reset_button = tk.Button(self.master, text="Reset", command=self.reset_enemies)
+        self.reset_button.pack(pady=20)
 
         names = ["sword", "fists", "bow", "fireball", "frostbolt"]
         self.skills = {name: tk.StringVar(value="1") for name in names}
@@ -119,6 +126,10 @@ class SimpleWindow:
         current_value = int(self.skills[name].get())
         new_value = current_value + increase_by
         self.skills[name].set(str(new_value))  
+
+    def reset_enemies(self):
+        for enemy in self.enemies:
+            enemy.reset_health()
 
 if __name__ == "__main__":
     root = tk.Tk()
