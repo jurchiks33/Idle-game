@@ -8,17 +8,25 @@ class Enemy:
         self.health = health
         self.max_health = health
         self.window_instance = window_instance
+
+        width_in_pixel = int((2.5 / 2.54) * 96)
+        height_in_pixel = int((2.5 / 2.54) * 96)
+
+        img = Image.open(img_path)
+        img = img.resize((width_in_pixel, height_in_pixel))
+        self.tree_image = ImageTk.PhotoImage(img)
     
-        self.tree_image = ImageTk.PhotoImage(Image.open(img_path))
         self.tree_label = tk.Label(container, image=self.tree_image, bg="grey")
         self.tree_label.pack(side=tk.TOP, padx=10)
 
         self.health_label = tk.Label(container, text=str(self.health) + "HP", bg="grey", font=("Arial", 12, "bold"))
         self.health_label.pack(side=tk.TOP, pady=5)
 
-        self.health_bar_canvas = tk.Canvas(container, width=200, height=20, bg="grey")
+        self.health_bar_canvas = tk.Canvas(container, width=width_in_pixel, height=20, bg="grey")
         self.health_bar_canvas.pack(side=tk.TOP, pady=5)
         self.health_bar = self.health_bar_canvas.create_rectangle(0, 0, 200, 20, fill="red", outline="black")
+
+
 
         self.tree_label.bind("<ButtonPress-1>", self.decrease_health)
 
