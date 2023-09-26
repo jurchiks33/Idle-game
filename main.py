@@ -28,9 +28,14 @@ class Enemy:
                 self.health = 0
             self.health_label.config(text=str(self.health) + "HP")
             self.health_bar_canvas.coords(self.health_bar, 0, 0, 200 * (self.health / self.max_health), 20)
+
             damage_label = tk.Label(self.container, text="-"+str(value), fg="red", bg="grey", font=("Arial", 12, "bold"))
-            damage_label.place(x=100, y=10)
-            self.container.after(1000, damage_label.destroy)
+
+            x = self.container.winfo_width() // 2
+            y = self.container.winfo_height() // 2
+
+            damage_label.place(x=x, y=y, anchor=tk.CENTER)
+            self.container.after(200, damage_label.destroy)
 
 class SimpleWindow:
     def __init__(self, master):
