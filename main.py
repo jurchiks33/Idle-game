@@ -9,8 +9,8 @@ class Enemy:
         self.max_health = health
         self.window_instance = window_instance
 
-        width_in_pixel = int((2.5 / 2.54) * 96)
-        height_in_pixel = int((2.5 / 2.54) * 96)
+        width_in_pixel = int((2 / 2.54) * 96)
+        height_in_pixel = int((2 / 2.54) * 96)
 
         img = Image.open(img_path)
         img = img.resize((width_in_pixel, height_in_pixel))
@@ -124,11 +124,14 @@ class SimpleWindow:
         self.add_enemy(enemy_container, "enemy5.jpg", 75000)
 
     def add_enemy(self, container, img_path, health):
-        if len(self.enemies) % 2 == 0:
-            container = self.column1
-        else:
-            container = self.column2
+        num_enemies_col1 = len(self.column1.winfo_children())
+       
+        max_enemies_in_col1 = 4
 
+        print(f"Column 1: {num_enemies_col1}") 
+    
+        container = self.column1 if num_enemies_col1 < max_enemies_in_col1 else self.column2
+    
         enemy_frame = tk.Frame(container, bg="grey")
         enemy_frame.pack(side=tk.TOP, pady=5)
         enemy = Enemy(enemy_frame, img_path, health, self)  
