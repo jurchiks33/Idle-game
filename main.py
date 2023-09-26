@@ -103,7 +103,11 @@ class SimpleWindow:
         enemy_container = tk.Frame(self.master, bg="grey")
         enemy_container.pack(side=tk.RIGHT, padx=5, pady=5)
 
+        self.column1 = tk.Frame(enemy_container, bg="grey")
+        self.column1.pack(side=tk.LEFT, padx=5, pady=5)
+
         self.column2 = tk.Frame(enemy_container, bg="grey")
+        self.column2.pack(side=tk.RIGHT, padx=5, pady=5)
 
         self.add_enemy(enemy_container, "tree.jpg", 500)
         self.add_enemy(enemy_container, "enemy2.jpg", 7000)
@@ -112,6 +116,11 @@ class SimpleWindow:
         self.add_enemy(enemy_container, "enemy5.jpg", 75000)
 
     def add_enemy(self, container, img_path, health):
+        if len(self.enemies) % 2 == 0:
+            container = self.column1
+        else:
+            container = self.column2
+
         enemy_frame = tk.Frame(container, bg="grey")
         enemy_frame.pack(side=tk.TOP, pady=5)
         enemy = Enemy(enemy_frame, img_path, health, self)  
