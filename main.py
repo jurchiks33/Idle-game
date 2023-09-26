@@ -32,10 +32,10 @@ class Enemy:
             damage_label = tk.Label(self.container, text="-"+str(value), fg="red", bg="grey", font=("Arial", 12, "bold"))
 
             x = self.container.winfo_width() // 2
-            y = self.container.winfo_height() // 2
+            y = self.container.winfo_height() // 2 - 10
 
             damage_label.place(x=x, y=y, anchor=tk.CENTER)
-            self.container.after(200, damage_label.destroy)
+            self.container.after(1000, damage_label.destroy)
 
 class SimpleWindow:
     def __init__(self, master):
@@ -93,8 +93,10 @@ class SimpleWindow:
         self.add_enemy(enemy_container, "enemy3.jpg", 25000)
 
     def add_enemy(self, container, img_path, health):
-        enemy = Enemy(container, img_path, health)
-        self.enemies. append(enemy)
+        enemy_frame = tk.Frame(container, bg="grey")
+        enemy_frame.pack(side=tk.TOP, pady=5)
+        enemy = Enemy(enemy_frame, img_path, health)
+        self.enemies.append(enemy)
           
     def increase_value(self, value, label, name):
         current_value = int(value.get())
