@@ -3,10 +3,11 @@ import tkinter as tk
 
 
 class Enemy:
-    def __init__(self, container, img_path, health):
+    def __init__(self, container, img_path, health, window_instance):
         self.container = container
         self.health = health
         self.max_health = health
+        self.window_instance = window_instance
     
         self.tree_image = ImageTk.PhotoImage(Image.open(img_path))
         self.tree_label = tk.Label(container, image=self.tree_image, bg="grey")
@@ -24,7 +25,8 @@ class Enemy:
     def decrease_health(self, event=None, value=1):
         if self.health > 0:
             self.health -= value
-            if self.health < 0:
+            if self.health <= 0:
+                self.defeat_enemy(value)
                 self.health = 0
             self.health_label.config(text=str(self.health) + "HP")
             self.health_bar_canvas.coords(self.health_bar, 0, 0, 200 * (self.health / self.max_health), 20)
@@ -32,16 +34,22 @@ class Enemy:
             damage_label = tk.Label(self.container, text="-"+str(value), fg="red", bg="grey", font=("Arial", 12, "bold"))
 
             x = self.container.winfo_width() // 2
-            y = self.container.winfo_height() // 2 - 10
+            y = self.container.winfo_height() // 2 - 110
 
             damage_label.place(x=x, y=y, anchor=tk.CENTER)
             self.container.after(1000, damage_label.destroy)
+
+    def defeat_enemy(self, value):
+        self.window_instance.increase_skill("sword", self.max_health)
 
 class SimpleWindow:
     def __init__(self, master):
         self.master = master
         self.master.title("Simple Game Window")
         self.master.configure(bg="grey")
+
+        names = ["sword", "fists", "bow", "fireball", "frostbolt"]
+        self.skills = {name: tk.StringVar(value="1") for name in names}
 
         width_in_pixel = (35 / 2.54) * 96
         height_in_pixel = (25 / 2.54) * 96
@@ -56,7 +64,7 @@ class SimpleWindow:
         title_canvas.pack(fill=tk.X, pady=(0, 20))
         title_canvas.create_line(0, 5, width_in_pixel, 5, fill="brown", width=3)
 
-        names = ["sword", "fists", "bow", "fireball", "frostbolt"]
+        
 
         frame_width = int((5 / 2.54) * 96)
         frame_height = int((2 / 2.54) * 96)
@@ -95,16 +103,22 @@ class SimpleWindow:
     def add_enemy(self, container, img_path, health):
         enemy_frame = tk.Frame(container, bg="grey")
         enemy_frame.pack(side=tk.TOP, pady=5)
-        enemy = Enemy(enemy_frame, img_path, health)
+        enemy = Enemy(enemy_frame, img_path, health, self)  
         self.enemies.append(enemy)
           
     def increase_value(self, value, label, name):
-        current_value = int(value.get())
+        current_value = int(self.skills[name].get())
         new_value = current_value + 1
         value.set(str(new_value))
         label.config(text=name + ": " + str(new_value))
         for enemy in self.enemies:
-            enemy.decrease_health(value=new_value)  
+            enemy.decrease_health(value=new_value)
+
+    def increase_skill(self, name, max_health):
+        increase_by = round(0.005 * max_health)
+        current_value = int(self.skills[name].get())
+        new_value = current_value + increase_by
+        self.skills[name].set(str(new_value))  
 
 if __name__ == "__main__":
     root = tk.Tk()
