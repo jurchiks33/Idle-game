@@ -93,6 +93,8 @@ class SimpleWindow:
         self.reset_button = tk.Button(self.master, text="Reset", command=self.reset_enemies)
         self.reset_button.pack(pady=20)
 
+        self.challenge_boss_button = None
+
         names = ["sword", "fists", "bow", "fireball", "frostbolt"]
         self.skills = {name: tk.StringVar(value="1") for name in names}
 
