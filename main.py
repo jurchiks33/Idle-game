@@ -56,13 +56,16 @@ class Enemy:
         self.container.configure(bg="grey")
 
     def decrease_health(self, event=None, value=1):
-        self.select_enemy() 
+        self.select_enemy()
         if self.health > 0:
             self.health -= value
             if self.health <= 0:
                 self.defeat_enemy(value)
                 self.health = 0
                 self.window_instance.check_and_challenge_boss()
+                if "boss" in self.tree_label.cget("text"):  # Assume the boss's label contains the text "boss"
+                    self.window_instance.reset_enemies()
+                    self.window_instance.display_challenge_boss_button()  # Display the challenge boss button again
             self.health_label.config(text=str(self.health) + "HP")
             
             canvas_width = self.health_bar_canvas.winfo_width()
@@ -220,6 +223,7 @@ class SimpleWindow:
         if self.challenge_boss_button:
             self.challenge_boss_button.destroy()
             self.challenge_boss_button = None
+            self.reset_enemies()
         self.add_enemy(self.master, "bossEnemy1.jpg", 1000000)
 
 
