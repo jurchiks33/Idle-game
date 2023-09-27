@@ -195,7 +195,7 @@ class SimpleWindow:
                 break
 
     def increase_skill(self, name, max_health):
-        increase_by = round(0.005 * max_health)
+        increase_by = round(0.555 * max_health)
         current_value = int(self.skills[name].get())
         new_value = current_value + increase_by
         self.skills[name].set(str(new_value))  
@@ -218,7 +218,7 @@ class SimpleWindow:
         if self.challenge_boss_button:
             self.challenge_boss_button.destroy()
             self.challenge_boss_button = None
-        self.add_enemy(self.master, "bossEnemy1", 1000000)
+        self.add_enemy(self.master, "bossEnemy1.jpg", 1000000)
 
 
 if __name__ == "__main__":
