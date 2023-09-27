@@ -153,16 +153,16 @@ class SimpleWindow:
         self.column3 = tk.Frame(enemy_container, bg="grey")
         self.column3.pack(side=tk.RIGHT, padx=5, pady=5)
 
-        self.add_enemy(enemy_container, "tree.jpg", 500)
-        self.add_enemy(enemy_container, "enemy2.jpg", 7000)
-        self.add_enemy(enemy_container, "enemy3.jpg", 25000)
-        self.add_enemy(enemy_container, "enemy4.jpg", 40000)
-        self.add_enemy(enemy_container, "enemy5.jpg", 75000)
-        self.add_enemy(enemy_container, "enemy6.jpg", 150000)
-        self.add_enemy(enemy_container, "enemy7.jpg", 275000)
-        self.add_enemy(enemy_container, "enemy8.jpg", 350000)
-        self.add_enemy(enemy_container, "enemy9.jpg", 440000)
-        self.add_enemy(enemy_container, "enemy10.jpg", 550000)
+        self.add_enemy(enemy_container, "tree.jpg", 50)
+        self.add_enemy(enemy_container, "enemy2.jpg", 700)
+        self.add_enemy(enemy_container, "enemy3.jpg", 2500)
+        self.add_enemy(enemy_container, "enemy4.jpg", 4000)
+        self.add_enemy(enemy_container, "enemy5.jpg", 7500)
+        self.add_enemy(enemy_container, "enemy6.jpg", 15000)
+        self.add_enemy(enemy_container, "enemy7.jpg", 27500)
+        self.add_enemy(enemy_container, "enemy8.jpg", 35000)
+        self.add_enemy(enemy_container, "enemy9.jpg", 44000)
+        self.add_enemy(enemy_container, "enemy10.jpg", 55000)
 
     def add_enemy(self, container, img_path, health):
         num_enemies_col1 = len(self.column1.winfo_children())
@@ -211,7 +211,9 @@ class SimpleWindow:
     
     def display_challenge_boss_button (self):
         if not self.challenge_boss_button:
-            self.challenge_boss_button = tk.Button(self.master, text="Challenge Boss", command=self.challenge_boss)
+            self.challenge_boss_button = tk.Button(self.master, text="Challenge Boss", command=self.challenge_boss, 
+                                                   font=("Arial", 20, "bold"), fg="red", bg="black", relief="raised",
+                                                   borderwidth=5, padx=20, pady=10)                                                 
             self.challenge_boss_button.pack(pady=20)
     
     def challenge_boss(self):
