@@ -62,6 +62,7 @@ class Enemy:
             if self.health <= 0:
                 self.defeat_enemy(value)
                 self.health = 0
+                self.window_instance.check_and_challenge_boss()
             self.health_label.config(text=str(self.health) + "HP")
             
             canvas_width = self.health_bar_canvas.winfo_width()
