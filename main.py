@@ -155,18 +155,29 @@ class SimpleWindow:
         self.add_enemy(enemy_container, "enemy3.jpg", 25000)
         self.add_enemy(enemy_container, "enemy4.jpg", 40000)
         self.add_enemy(enemy_container, "enemy5.jpg", 75000)
+        self.add_enemy(enemy_container, "enemy6.jpg", 150000)
+        self.add_enemy(enemy_container, "enemy7.jpg", 275000)
+        self.add_enemy(enemy_container, "enemy8.jpg", 350000)
+        self.add_enemy(enemy_container, "enemy9.jpg", 440000)
+        self.add_enemy(enemy_container, "enemy10.jpg", 550000)
 
     def add_enemy(self, container, img_path, health):
         num_enemies_col1 = len(self.column1.winfo_children())
+        num_enemies_col2 = len(self.column2.winfo_children())
+        num_enemies_col3 = len(self.column3.winfo_children())
        
-        max_enemies_in_col1 = 4
+        min_enemies = min(num_enemies_col1, num_enemies_col2, num_enemies_col3)
 
-        print(f"Column 1: {num_enemies_col1}") 
-    
-        container = self.column1 if num_enemies_col1 < max_enemies_in_col1 else self.column2
+        if num_enemies_col1 <= num_enemies_col2 and num_enemies_col1 <= num_enemies_col3:
+            container = self.column1
+        elif num_enemies_col2 <= num_enemies_col1 and num_enemies_col2 <= num_enemies_col3:
+            container = self.column2
+        else:
+            container = self.column3
     
         enemy_frame = tk.Frame(container, bg="grey")
         enemy_frame.pack(side=tk.TOP, pady=5)
+
         enemy = Enemy(enemy_frame, img_path, health, self)  
         self.enemies.append(enemy)
           
