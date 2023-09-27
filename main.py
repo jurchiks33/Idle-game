@@ -189,7 +189,7 @@ class SimpleWindow:
         value.set(str(new_value))
         label.config(text=name + ": " + str(new_value))
         for enemy in self.enemies:
-            if enemy.isSelected:  # Only affect the selected enemy
+            if enemy.isSelected:  
                 enemy.decrease_health(value=new_value)
                 break
 
@@ -202,6 +202,23 @@ class SimpleWindow:
     def reset_enemies(self):
         for enemy in self.enemies:
             enemy.reset_health()
+
+    def check_and_challenge_boss(self):
+        all_enemies_defeated = all(enemy.health <= 0 for enemy in self.enemies)
+        if all_enemies_defeated:
+            self.display_challenge_boss_button()
+    
+    def display_challenge_boss_button (self):
+        if not self.challenge_boss_button:
+            self.challenge_boss_button = tk.Button(self.master, text="Challenge Boss", command=self.challenge_boss)
+            self.challenge_boss_button.pack(pady=20)
+    
+    def challenge_boss(self):
+        if self.challenge_boss_button:
+            self.challenge_boss_button.destroy()
+            self.challenge_boss_button = None
+        self.add_enemy(self.master, "bossEnemy1", 1000000)
+
 
 if __name__ == "__main__":
     root = tk.Tk()
